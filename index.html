@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meme Video Reveal</title>
 <style>
-  html, body {
+html, body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     background: black;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
     font-family: Arial, sans-serif;
-  }
+}
 
-  /* Red reveal button */
-  #revealBtn {
+/* Red reveal button */
+#revealBtn {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -32,44 +32,58 @@
     border-radius: 15px;
     cursor: pointer;
     box-shadow: 0 0 20px rgba(255,0,0,0.5);
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     z-index: 2;
-  }
-  #revealBtn:hover {
+}
+#revealBtn:hover {
     transform: translate(-50%, -50%) scale(1.1);
     box-shadow: 0 0 30px rgba(255,0,0,0.8);
-  }
+}
 
-  /* Video styling */
-  video {
+/* Video styling */
+#videoWrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0; /* initially hidden */
+    transition: opacity 2s ease; /* fade-in effect */
+    z-index: 1;
+}
+video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-  }
+}
 </style>
 </head>
 <body>
 
-<video id="memeVideo" src="Kyu-nahi-ho-rahi-padhai-Alakh-Pandey.mp4" controls></video>
+<div id="videoWrapper">
+    <video id="memeVideo" src="Kyu-nahi-ho-rahi-padhai-Alakh-Pandey.mp4" controls></video>
+</div>
+
 <button id="revealBtn">Click to Reveal!</button>
 
 <script>
 const btn = document.getElementById("revealBtn");
+const videoWrapper = document.getElementById("videoWrapper");
 const video = document.getElementById("memeVideo");
 
-// Ensure video is ready
-video.load(); 
+// Ensure video is loaded
+video.load();
 
 btn.addEventListener("click", () => {
     // Fade out button
-    btn.style.transition = "opacity 0.5s";
     btn.style.opacity = 0;
 
-    // Play video immediately (user gesture triggers sound)
-    video.play().catch(err => {
-        console.error("Video play failed:", err);
-    });
+    // Fade in video
+    videoWrapper.style.opacity = 1;
+
+    // Play video immediately with sound
+    video.play().catch(err => console.error("Video play failed:", err));
 
     // Remove button after fade
     setTimeout(() => {

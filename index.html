@@ -18,7 +18,6 @@ html, body {
     font-family: Arial, sans-serif;
 }
 
-/* Red reveal button */
 #revealBtn {
     position: absolute;
     top: 50%;
@@ -40,22 +39,22 @@ html, body {
     box-shadow: 0 0 30px rgba(255,0,0,0.8);
 }
 
-/* Video styling */
 #videoWrapper {
+    position: fixed;
+    top:0;
+    left:0;
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0; /* initially hidden */
-    transition: opacity 2s ease; /* fade-in effect */
+    opacity: 0;       /* completely hidden at start */
     z-index: 1;
+    background: black;
+    transition: opacity 1.5s ease; /* smooth fade-in */
 }
-video {
+
+#videoWrapper video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 </style>
 </head>
@@ -72,20 +71,20 @@ const btn = document.getElementById("revealBtn");
 const videoWrapper = document.getElementById("videoWrapper");
 const video = document.getElementById("memeVideo");
 
-// Ensure video is loaded
+// preload video
 video.load();
 
 btn.addEventListener("click", () => {
-    // Fade out button
+    // fade out button
     btn.style.opacity = 0;
 
-    // Fade in video
+    // fade in video
     videoWrapper.style.opacity = 1;
 
-    // Play video immediately with sound
-    video.play().catch(err => console.error("Video play failed:", err));
+    // play video immediately
+    video.play().catch(err => console.error(err));
 
-    // Remove button after fade
+    // remove button after fade
     setTimeout(() => {
         btn.style.display = "none";
     }, 500);
